@@ -1,0 +1,119 @@
+<html>
+
+<head>
+   <meta charset="UTF-8">
+   <meta content="base ct neck" name="dcterms.title">
+   <meta content="61fbada4-88da-4f98-8d71-2dde038abbbb" name="dcterms.identifier">
+   <meta content="en" name="dcterms.language">
+   <meta content="2019-01-31" name="dcterms.date">
+   <meta content="Nuance System" name="dcterms.creator">
+   <title>Zevalin In-111 Imaging</title>
+   <script type="text/javascript" src="JSON/JSON_Finding_Observation.js"></script>
+   <script type="text/javascript" src="JS/setting.js"></script>
+</head>
+
+<body>
+   <!-- <section data-section-name="FINDINGS:">
+      <header class="Level1">FINDINGS:</header>
+      <p><label>Evaluation limited without intravenous contrast.</label><br><label>PHARYNGEAL MUCOSA: </label><input
+            type="text" name="pharyngeal mucosa" value="Normal nasopharynx, oropharynx and hypopharynx."></p>
+      <p><label>ORAL CAVITY: </label><input type="text" name="oral cavity"
+            value="Normal including tongue and floor of mouth."></p>
+      <p><label>LARYNX: </label><input type="text" name="larynx"
+            value="Normal supraglottic, glottic and subglottic larynx."></p>
+      <p><label>LYMPH NODES: </label><input type="text" name="nodes" value="No suspicious lymph nodes."></p>
+      <p><label>SALIVARY GLANDS: </label><input type="text" name="salivary glands"
+            value="Normal parotid, submandibular and sublingual glands."></p>
+      <p><label>THYROID: </label><input type="text" name="thyroid" value="Normal."></p>
+      <p><label>VESSELS AND CAROTID SPACE: </label><input type="text" name="vessels and carotid space" value="Normal.">
+      </p>
+      <p><label>BONES: </label><input type="text" name="bones" value="No significant abnormality."></p>
+      <p><label>OTHER: </label><input type="text" name="other" value="Visualized lung apices are clear. "></p>
+   </section> -->
+
+   <section data-section-name="Procedure">
+      <header class="level1">Zevalin In-111 Imaging</header>
+      <p>
+         <textarea id="T248_2"
+            name="Procedure">Following the IV administration of indium-111 Zevalin, anterior and posterior images of the body were obtained at two hours and 48 hours post injection.  </textarea>
+      </p>
+      <p>
+         <label for="T248_4">Dose</label>
+         <input type="number" id="T248_4" name="Dose" value="5" /> mCi
+      </p>
+   </section>
+   <section data-section-name="Clinical information">
+      <header class="level1">Clinical information</header>
+      <p>
+         <textarea id="T248_5" name="Clinical information"> </textarea>
+      </p>
+   </section>
+   <section data-section-name="Comparison">
+      <header class="level1">Comparison</header>
+      <p>
+         <textarea id="T248_6" name="Comparison">None. </textarea>
+      </p>
+   </section>
+   <section data-section-name="Findings">
+      <header class="level1">Findings</header>
+      <section data-section-name="Early images">
+         <header class="level2">Early images</header>
+         <p>
+            <textarea id="T248_11"
+               name="Early images">The early images obtained at two hours postinjection show normal distribution of indium-111 Zevalin in the blood pool, liver, spleen, and kidneys.</textarea>
+         </p>
+      </section>
+
+      <section data-section-name="Delayed images">
+         <header class="level2">Delayed images</header>
+         <p>
+            <textarea id="T248_12"
+               name="Delayed images">Delayed images obtained at 48 hours after injection show normal uptake in the liver, spleen, and bladder.</textarea>
+         </p>
+      </section>
+   </section>
+   <section data-section-name="Impression">
+      <header class="level1">Impression</header>
+      <p>
+         <textarea id="T248_13"
+            name="Impression">Normal tracer activity in the blood pool, liver, spleen and bladder is identified. </textarea>
+      </p>
+   </section>
+   <button onclick="Submit()">Submit</button>
+</body>
+<script>
+   function Submit() {
+      // 把網頁輸入的資料填入JSON
+      FindingObservation.component[1].valueString = document.getElementsByName("Procedure")[0].value;
+      FindingObservation.component[2].valueInteger = document.getElementsByName("Dose")[0].value;
+      FindingObservation.component[3].valueString = document.getElementsByName("Clinical information")[0].value;
+      FindingObservation.component[4].valueString = document.getElementsByName("Comparison")[0].value;
+      FindingObservation.component[5].valueString = document.getElementsByName("Early images")[0].value;
+      FindingObservation.component[6].valueString = document.getElementsByName("Delayed images")[0].value;
+      FindingObservation.component[7].valueString = document.getElementsByName("Impression")[0].value;
+      // ...請完成它
+
+      // 把JSON上傳到FHIR伺服器
+      postData(FindingObservation, "Observation")
+   }
+
+   // 上傳資料到FHIR伺服器涵式
+   function postData(jsonString, type) {
+      var xhttp = new XMLHttpRequest();
+      var url = fhirUrl + "/" + type;
+      xhttp.open("POST", url, false);
+      xhttp.setRequestHeader("Content-type", 'application/json+fhir');
+      xhttp.onreadystatechange = function () {
+         if (this.readyState == 4) // && this.status == 201) 
+         {
+            ret = JSON.parse(this.responseText);
+            alert(this.responseText);
+         }
+      };
+      var data = JSON.stringify(jsonString);
+      xhttp.send(data);
+   }
+
+</script>
+
+</html>
